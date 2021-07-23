@@ -44,7 +44,7 @@ gatherAPI_info ()
     fi
 
     read -p 'Username: ' USERNAME
-	read -sp 'Password: ' PASSWORD
+    read -sp 'Password: ' PASSWORD
 
     curl_args[3]="$USERNAME:$PASSWORD"
 
@@ -62,7 +62,7 @@ preFlight_check ()
     if [[ ! -d /home/$USER/prisma-ccu/ ]];
     then
         mkdir /home/$USER/prisma-ccu/
-	    mkdir /home/$USER/prisma-ccu/rule-snippets/
+	mkdir /home/$USER/prisma-ccu/rule-snippets/
         mkdir /home/$USER/prisma-ccu/organize/
         mkdir /home/$USER/prisma-ccu/git/
         mkdir /home/$USER/prisma-ccu/prisma-ruleset-bundles/
@@ -256,11 +256,11 @@ delete ()
 {
     preFlight_check
 
-	echo
-	echo
+    echo
+    echo
     echo Please select from the following Compliance Checks:
     echo
-	sleep 1
+    sleep 1
 
     curl "${curl_args[@]}" -X GET $TWISTLOCKAPI_ENDPOINT/custom-compliance | jq --raw-output '.[] | "\(._id) \(.name)"'
     echo
@@ -289,7 +289,7 @@ pull ()
 
         file_directory_sanity_check
 
-		curl "${curl_args[@]}" -X GET $TWISTLOCKAPI_ENDPOINT/custom-compliance | jq '.' > $EDITDIR/$EDITFILENAME.json
+	curl "${curl_args[@]}" -X GET $TWISTLOCKAPI_ENDPOINT/custom-compliance | jq '.' > $EDITDIR/$EDITFILENAME.json
     else
         curl "${curl_args[@]}" -X GET $TWISTLOCKAPI_ENDPOINT/custom-compliance | jq '.' > /home/$USER/prisma-ccu/pulled-custom_compliance_rules-$TIMEDATE.json
     fi
@@ -319,7 +319,7 @@ push ()
 
     file_directory_sanity_check
     
-	jq -c .[] $EDITDIR/$EDITFILENAME.json | awk '{print > "/home/'$USER'/prisma-ccu/rule-snippets/doc00" NR ".json";}'
+    jq -c .[] $EDITDIR/$EDITFILENAME.json | awk '{print > "/home/'$USER'/prisma-ccu/rule-snippets/doc00" NR ".json";}'
 
     if [[ $ANSWER == 'y' || $ANSWER == 'yes' ]]
     then
@@ -427,7 +427,7 @@ generate_prisma_ruleset_bundle ()
     
     file_directory_sanity_check
 
-	jq -c .[] $EDITDIR/$EDITFILENAME.json | awk '{print > "/home/'$USER'/prisma-ccu/rule-snippets/doc00" NR ".json";}'
+    jq -c .[] $EDITDIR/$EDITFILENAME.json | awk '{print > "/home/'$USER'/prisma-ccu/rule-snippets/doc00" NR ".json";}'
 
     echo
     echo Processing...
@@ -666,8 +666,8 @@ custom_toggle ()
 config_client ()
 {
     echo
-	echo Initializing setup...
-	echo
+    echo Initializing setup...
+    echo
 
     OSTYPE=$(grep "ID_LIKE" /etc/os-release)
 
@@ -688,13 +688,13 @@ config_client ()
 
     echo "Making directories..."
     mkdir /home/$USER/prisma-ccu/
-	mkdir /home/$USER/prisma-ccu/rule-snippets/
+    mkdir /home/$USER/prisma-ccu/rule-snippets/
     mkdir /home/$USER/prisma-ccu/organize/
     mkdir /home/$USER/prisma-ccu/git/
     mkdir /home/$USER/prisma-ccu/prisma-ruleset-bundles/
     mkdir /home/$USER/prisma-ccu/prisma-rules/
-	echo Done.
-	echo
+    echo Done.
+    echo
     pause
 }
 
@@ -702,7 +702,7 @@ config_client ()
 display_help ()
 {
     echo
-	echo "The following details helpful information about each menu option as well as useful tips for general usage."
+    echo "The following details helpful information about each menu option as well as useful tips for general usage."
     echo
     echo "DELETE"
     echo "The DELETE function allow for the deletion of Prisma Cloud rules. Script will reach out to user defined Prisma Cloud instance, pull down rulesets, and displays their ID."
@@ -757,7 +757,7 @@ display_help ()
     echo
     echo "DISPLAY SCRIPT INFORMATION"
     echo "The DISPLAY SCRIPT INFORMATION menu option displays current script information, changelog, and available toolsets."
-	echo
+    echo
     echo "EXIT UTILITY"
     echo "The EXIT UTILITY menu option exits the user out of the script and back to a command prompt."
     echo
@@ -837,9 +837,9 @@ show_options ()
     echo "    Welcome to the Custom Compliance Utility! v5.1    "
     echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     echo "1. Delete"
-	echo "2. Push"
+    echo "2. Push"
     echo "3. Push Individual Rules"
-	echo "4. Pull"
+    echo "4. Pull"
     echo "5. Edit"
     echo "6. Generate Prisma Ruleset Bundles"
     echo "7. Generate Prisma Rules"
@@ -860,8 +860,8 @@ read_options ()
     local choice
 	read -p "Enter choice [1 - 15]: " CHOICE
 	case $CHOICE in
-		1) delete ;;
-		2) push ;;
+	1) delete ;;
+	2) push ;;
         3) push_individual_rules ;;
         4) pull ;;
         5) edit ;;
@@ -876,13 +876,13 @@ read_options ()
         14) config_client ;;
         15) display_help ;;
         16) display_script_info ;;
-		x) exit 0;;
-		*) echo Invalid selection... && sleep 2
+	x) exit 0;;
+	*) echo Invalid selection... && sleep 2
 	esac
 }
 
 while true
 do
     show_options
-	read_options
+    read_options
 done
